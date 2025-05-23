@@ -11,6 +11,16 @@ const Footer: React.FC = () => {
           <p className="mt-1">
             © {new Date().getFullYear()} - Powered by React, TypeScript, and SQL.js
           </p>
+          <p className="mt-2">
+            <a 
+              href="https://hemdesai.me" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:text-blue-700 transition-colors"
+            >
+              /hem
+            </a>
+          </p>
         </div>
       </div>
     </footer>

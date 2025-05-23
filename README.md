@@ -60,6 +60,7 @@ The application supports usage across multiple tabs in the same browser:
 - Changes made in one tab are automatically reflected in other open tabs
 - Data is synchronized using the BroadcastChannel API
 - All tabs share the same underlying SQLite database stored in IndexedDB
+- **Note**: You may need to refresh the site for the data to be updated completely
 
 ## Development Challenges
 
@@ -84,6 +85,4 @@ npm run build
 npx netlify deploy --prod
 ```
 
-## License
 
-MIT

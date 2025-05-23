@@ -10,7 +10,7 @@ export function initSqlJsWithConfig() {
       if (import.meta.env.DEV) {
         return `/node_modules/sql.js/dist/${file}`;
       }
-      return `/${file}`;
+      return `/assets/wasm/${file}`;
     }
   }).catch(err => {
     console.error('Failed to initialize SQL.js:', err);

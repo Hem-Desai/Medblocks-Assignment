@@ -42,19 +42,18 @@ export const useDatabase = () => {
       
       console.log(`Received message from another tab: ${type}`);
       
-      if (timestamp > dbState.lastUpdate) {
-        try {
-          await syncDatabase();
-          
-          setDbState({
-            isInitialized: true,
-            lastUpdate: timestamp,
-          });
-          
-          console.log('Database synchronized successfully');
-        } catch (error) {
-          console.error('Failed to sync database:', error);
-        }
+      // Always sync when receiving a broadcast message, regardless of timestamp
+      try {
+        await syncDatabase();
+        
+        setDbState({
+          isInitialized: true,
+          lastUpdate: timestamp,
+        });
+        
+        console.log('Database synchronized successfully');
+      } catch (error) {
+        console.error('Failed to sync database:', error);
       }
     };
     
@@ -62,13 +61,15 @@ export const useDatabase = () => {
       console.log('Database changed in another tab (via IndexedDB)');
       
       try {
-        await syncDatabase();
-        
         const customEvent = event as CustomEvent<{timestamp: number}>;
+        const timestamp = customEvent.detail?.timestamp || Date.now();
+        
+        // Always refresh data when receiving a custom event
+        await syncDatabase();
         
         setDbState({
           isInitialized: true,
-          lastUpdate: customEvent.detail?.timestamp || Date.now(),
+          lastUpdate: timestamp,
         });
         
         console.log('Database synchronized from IndexedDB changes');

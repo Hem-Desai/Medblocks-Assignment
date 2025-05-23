@@ -50,7 +50,7 @@ export function initPGlite(): Promise<PGlite> {
           if (import.meta.env.DEV) {
             return `/node_modules/sql.js/dist/${file}`;
           }
-          return `/${file}`;
+          return `/assets/wasm/${file}`;
         }
       });
       

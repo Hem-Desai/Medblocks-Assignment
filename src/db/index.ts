@@ -63,6 +63,12 @@ const getDB = async (): Promise<IDBPDatabase<PatientDBSchema>> => {
 
 export const syncDatabase = async (): Promise<void> => {
   try {
+    // Trigger a custom event to notify all tabs that the database has been updated
+    const updateEvent = new CustomEvent('medblock-db-updated', {
+      detail: { timestamp: Date.now() }
+    });
+    window.dispatchEvent(updateEvent);
+    
     console.log('Database synchronized');
   } catch (error) {
     console.error('Failed to sync database:', error);
@@ -99,6 +105,9 @@ export const addPatient = async (patient: Patient): Promise<void> => {
     await db.add('patients', newPatient);
     
     await addPatientToPGlite(newPatient);
+    
+    // Trigger synchronization across tabs
+    await syncDatabase();
     
     console.log('Patient added successfully to both databases');
   } catch (error) {
